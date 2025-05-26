@@ -15,11 +15,11 @@ const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 const _gitignorePath = path.resolve(_dirname, "../../.gitignore");
 
-const setAssetsImportRule = (patterns) => {
-  return patterns.map((pattern) => ({
+const setAssetsImportRule = patterns => {
+  return patterns.map(pattern => ({
     pattern,
     patternOptions: { matchBase: true },
-    group: "object",
+    group: "object"
   }));
 };
 
@@ -41,25 +41,25 @@ export const nextJsConfig = [
       globals: { process: "readonly" },
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        tsconfig: ["./tsconfig.json"],
-      },
+        tsconfig: ["./tsconfig.json"]
+      }
     },
     plugins: {
       "@next/next": pluginNext,
       react: pluginReact,
       "react-hooks": pluginReactHooks,
       import: pluginImport,
-      "jsx-a11y": pluginJsxA11y,
+      "jsx-a11y": pluginJsxA11y
     },
     settings: {
       react: { version: "detect" },
       "import/resolver": {
         typescript: {
-          project: ["./tsconfig.json"],
-        },
+          project: ["./tsconfig.json"]
+        }
       },
       "import/ignore": ["vscode"],
-      "import/core-modules": ["vscode"],
+      "import/core-modules": ["vscode"]
     },
     rules: {
       // TypeScript rules
@@ -71,8 +71,8 @@ export const nextJsConfig = [
           ignoreRestSiblings: true,
           caughtErrors: "none",
           destructuredArrayIgnorePattern: "^_",
-          argsIgnorePattern: "^_",
-        },
+          argsIgnorePattern: "^_"
+        }
       ],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/ban-ts-comment": "off",
@@ -91,11 +91,7 @@ export const nextJsConfig = [
       "import/order": [
         "error",
         {
-          groups: [
-            ["builtin", "external"],
-            ["internal", "parent", "sibling", "index"],
-            ["object"],
-          ],
+          groups: [["builtin", "external"], ["internal", "parent", "sibling", "index"], ["object"]],
           pathGroups: [
             ...setAssetsImportRule([
               "*.svg",
@@ -113,12 +109,12 @@ export const nextJsConfig = [
               "*.tif",
               "*.tiff",
               "*.woff",
-              "*.woff2",
-            ]),
+              "*.woff2"
+            ])
           ],
           "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: false },
-        },
+          alphabetize: { order: "asc", caseInsensitive: false }
+        }
       ],
 
       // React Hooks rules
@@ -134,7 +130,7 @@ export const nextJsConfig = [
       ...pluginJsxA11y.configs.recommended.rules,
 
       // Other React rules
-      "react/react-in-jsx-scope": "off",
-    },
-  },
+      "react/react-in-jsx-scope": "off"
+    }
+  }
 ];
