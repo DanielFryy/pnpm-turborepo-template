@@ -8,6 +8,8 @@
     "check-format": "prettier -c ./**/*.{js,ts,tsx,json,css,md}",
     "format": "prettier --write \"**/*.{js,ts,tsx,json,css,md}\"",
     "check-types": "turbo run check-types",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
     "cz": "cz",
     "prepare": "husky"
   },
