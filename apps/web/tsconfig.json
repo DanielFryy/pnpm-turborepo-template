@@ -2,7 +2,7 @@
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [{ "name": "next" }],
-    "paths": { "@/*": ["./src/*"], "setupTests": ["./src/test/setup.tsx"] },
+    "paths": { "@/*": ["./src/*"], "@repo/ui/*": ["../../packages/ui/src/*"], "setupTests": ["./src/test/setup.tsx"] },
     "types": ["vitest/globals"]
   },
   "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "next.config.ts", ".next/types/**/*.ts"],

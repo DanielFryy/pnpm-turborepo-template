@@ -15,7 +15,7 @@ const config: ViteUserConfig = {
     include: ["**/*.test.{ts,tsx}"],
     globals: true
   },
-  resolve: { alias: { "@": resolve(__dirname, "./src/app") } }
+  resolve: { alias: { "@": resolve(__dirname, "./src") } }
 };
 
 export default config;
