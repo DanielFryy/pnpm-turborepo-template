@@ -72,6 +72,38 @@ Next, you can link your Turborepo to your Remote Cache by running the following 
 npx turbo link
 ```
 
+## Updating Dependencies
+
+This monorepo provides a convenient script to update all dependencies across the workspace, including the centralized catalog in `pnpm-workspace.yaml`.
+
+### Usage
+
+To update all dependencies, run:
+
+```sh
+pnpm run update-dependencies
+```
+
+This script will:
+
+- Update the centralized catalog dependencies in `pnpm-workspace.yaml`.
+- Update all workspace `package.json` dependencies.
+- Install the updated dependencies automatically.
+
+### Requirements
+
+- **yq**: This script requires [`yq`](https://github.com/mikefarah/yq) to be installed and available in your `PATH`.
+  - On macOS, you can install it via Homebrew:
+    ```sh
+    brew install yq
+    ```
+- **npm-check-updates**: This is used internally by the script and should already be installed as a dev dependency. However, it's recommended to also install it globally for easier manual usage:
+  ```sh
+  npm install -g npm-check-updates
+  ```
+
+> **Note:** This script is 100% working on macOS. Other operating systems have not been tested.
+
 ## Useful Links
 
 Learn more about the power of Turborepo:
