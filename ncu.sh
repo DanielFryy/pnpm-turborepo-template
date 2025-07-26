@@ -35,6 +35,10 @@ ncu -l silent -u -ws
 
 echo "✅ All workspace dependencies updated."
 
+# clean node_modules
+echo "🧹 Cleaning node_modules..."
+pnpm run clean
+
 echo "Installing updated dependencies..."
 pnpm i
 
