@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "javascript-typescript-conventions": {
+      "source": "DanielFryy/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/javascript-typescript-conventions/SKILL.md",
+      "computedHash": "3973e9fcf1c78591be92832c23a27d9519841cc0c8558fa97d07a29ad4100548"
+    },
+    "next-page-composition": {
+      "source": "DanielFryy/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/next-page-composition/SKILL.md",
+      "computedHash": "0bd5b6040ac3221e61aa4cd998b0b414c5f2bc8a71b0828e0b7ab23ee21c72b5"
+    },
+    "unslop": {
+      "source": "cursor/plugins",
+      "sourceType": "github",
+      "skillPath": "pstack/skills/unslop/SKILL.md",
+      "computedHash": "3b8676e7461f44026b4d555ff0f3369a761df6033b9b9e2cd5152693cb20fbb2"
+    }
+  }
+}

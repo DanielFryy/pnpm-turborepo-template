@@ -1,9 +1,7 @@
 packages:
   - apps/*
   - packages/*
-onlyBuiltDependencies:
-  - "@tailwindcss/oxide"
-  - core-js-pure
-  - esbuild
-  - sharp
-  - unrs-resolver
+allowBuilds:
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - lucide-react@1.43.0

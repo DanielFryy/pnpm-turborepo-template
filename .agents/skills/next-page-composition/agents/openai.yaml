@@ -1,0 +1,3 @@
+interface:
+  display_name: "Next Page Composition"
+  short_description: "Compose Next.js pages from small focused components"
