@@ -1,4 +1,4 @@
-import { includeIgnoreFile } from "@eslint/compat";
+import { includeIgnoreFile } from "@eslint/config-helpers";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -76,10 +76,7 @@ export const nextJsConfig = [
       ],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-empty-interface": "off",
       "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-namespace": "off",
