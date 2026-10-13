@@ -1,11 +1,33 @@
 ---
 name: javascript-typescript-conventions
-description: Apply JavaScript and TypeScript conventions for compact objects and types, destructuring, function bodies, and guard clauses when writing or reviewing JS, TS, JSX, or TSX.
+description: Apply JavaScript and TypeScript conventions for default exports, compact objects and types, destructuring, function bodies, and guard clauses when writing or reviewing JS, TS, JSX, or TSX.
 ---
 
 # JavaScript and TypeScript conventions
 
 Apply these conventions to code being written or edited. They also apply to callbacks and component functions.
+
+## Default exports of constants
+
+When a value needs a default export, assign it to a named local `const` first, then export that identifier in a separate `export default` statement. Do not default-export the expression directly. This applies to any kind of constant, including objects, arrays, primitives, function expressions, and values returned by calls; it is not limited to tool configurations.
+
+```ts
+// Avoid
+export default defineConfig({});
+
+// Prefer
+const config = defineConfig({});
+export default config;
+```
+
+Use a descriptive local name. If that name conflicts with an import or another binding, choose a different, more explicit name for the local constant:
+
+```ts
+import config from "./base-config";
+
+const projectConfig = defineConfig(config);
+export default projectConfig;
+```
 
 ## Formatter and line width
 

@@ -5,13 +5,19 @@
       "source": "DanielFryy/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/javascript-typescript-conventions/SKILL.md",
-      "computedHash": "3973e9fcf1c78591be92832c23a27d9519841cc0c8558fa97d07a29ad4100548"
+      "computedHash": "53e3b8fe5150ce58430f0d72115a911384e8780121863a959c8cb9a6b7fc8c5e"
     },
     "next-page-composition": {
       "source": "DanielFryy/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/next-page-composition/SKILL.md",
-      "computedHash": "0bd5b6040ac3221e61aa4cd998b0b414c5f2bc8a71b0828e0b7ab23ee21c72b5"
+      "computedHash": "3e2a01463327ae7ae41c639860874fcc8ea10ac201907500e6a7a26c488bf185"
+    },
+    "react-component-conventions": {
+      "source": "DanielFryy/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-component-conventions/SKILL.md",
+      "computedHash": "ebb0049f4c5395820c0c72bb8eb609eaa3f3de46d2302457ff031afaeadc5b45"
     },
     "unslop": {
       "source": "cursor/plugins",
