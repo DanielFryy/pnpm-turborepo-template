@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
+    "lint": "oxlint . --max-warnings 0 --report-unused-disable-directives-severity warn",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
@@ -21,7 +21,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
+    "@repo/oxlint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
@@ -31,7 +31,6 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
-    "eslint": "^9.39.5",
     "jsdom": "^30.0.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
@@ -39,10 +38,11 @@
   },
   "exports": {
     "./globals.css": "./src/styles/globals.css",
-    "./postcss.config": "./postcss.config.mjs",
+    "./postcss.config": "./postcss.config.ts",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
     "./*": "./src/*.tsx"
-  }
+  },
+  "type": "module"
 }

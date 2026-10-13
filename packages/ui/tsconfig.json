@@ -2,8 +2,8 @@
   "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
     "paths": { "@repo/ui/*": ["./src/*"], "setupTests": ["./src/test/setup.tsx"] },
-    "types": ["vitest/globals"]
+    "types": ["node", "vitest/globals"]
   },
-  "include": ["src"],
+  "include": ["src", "*.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

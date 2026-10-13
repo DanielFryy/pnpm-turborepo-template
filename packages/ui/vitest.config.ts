@@ -1,12 +1,12 @@
 import react from "@vitejs/plugin-react";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { ViteUserConfig } from "vitest/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/** @type {import("vitest/config").ViteUserConfig} */
-const config = {
+const config: ViteUserConfig = {
   plugins: [react()],
   test: {
     environment: "jsdom",

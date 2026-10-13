@@ -8,7 +8,14 @@
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/oxlint.config.ts",
+        "$TURBO_ROOT$/packages/oxlint-config/**",
+        "$TURBO_ROOT$/turbo.json",
+        "$TURBO_ROOT$/.gitignore"
+      ]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
@@ -24,6 +31,9 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "@repo/oxlint-config#test": {
+      "cache": false
     }
   }
 }

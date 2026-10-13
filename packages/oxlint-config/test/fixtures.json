@@ -1,0 +1,394 @@
+[
+  {
+    "scope": "next",
+    "name": "valid",
+    "code": "export const value = 1;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "debugger",
+    "code": "export function run() { debugger; }",
+    "extension": "tsx",
+    "expected": ["no-debugger"]
+  },
+  {
+    "scope": "next",
+    "name": "unused",
+    "code": "const unused = 1; export {};",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "next",
+    "name": "unused underscore argument",
+    "code": "export function run(_unused: string) { return 1; }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "unused catch",
+    "code": "try { throw new Error(); } catch (error) { void 0; }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "type-only use",
+    "code": "const value = 1; export type Value = typeof value;",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "next",
+    "name": "rest sibling",
+    "code": "const { unused, ...rest } = { unused: 1, keep: 2 }; export { rest };",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "any",
+    "code": "export const value: any = 1;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "empty object type",
+    "code": "export type Value = {};",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "double boolean",
+    "code": "export const value = !!true ? 1 : 2;",
+    "extension": "tsx",
+    "expected": ["no-constant-condition"]
+  },
+  {
+    "scope": "next",
+    "name": "typescript comment",
+    "code": "// @ts-ignore\nexport const value = 1;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "environment",
+    "code": "export const value = process.env.UNDECLARED_LINT_TEST;",
+    "extension": "tsx",
+    "expected": ["turbo/no-undeclared-env-vars"]
+  },
+  {
+    "scope": "next",
+    "name": "hooks",
+    "code": "import { useState } from \"react\";\nexport function Component() { if (Math.random()) useState(0); return null; }",
+    "extension": "tsx",
+    "expected": ["react/rules-of-hooks"]
+  },
+  {
+    "scope": "next",
+    "name": "dependencies",
+    "code": "import { useEffect } from \"react\";\nexport function Component(props: { value: string }) { useEffect(() => { console.log(props.value); }, []); return null; }",
+    "extension": "tsx",
+    "expected": ["react/exhaustive-deps"]
+  },
+  {
+    "scope": "next",
+    "name": "image",
+    "code": "export const Component = () => <img src=\"/image.png\" />;",
+    "extension": "tsx",
+    "expected": ["jsx-a11y/alt-text", "nextjs/no-img-element"]
+  },
+  {
+    "scope": "next",
+    "name": "accessibility",
+    "code": "export const Component = () => <div onClick={() => void 0}>click</div>;",
+    "extension": "tsx",
+    "expected": ["jsx-a11y/click-events-have-key-events", "jsx-a11y/no-static-element-interactions"]
+  },
+  {
+    "scope": "next",
+    "name": "import order",
+    "code": "import { z } from \"zod\";\nimport { useState } from \"react\";\nexport { z, useState };",
+    "extension": "tsx",
+    "expected": ["import/order"]
+  },
+  {
+    "scope": "next",
+    "name": "alias import",
+    "code": "import { render } from \"setupTests\";\n\nimport { z } from \"zod\";\nexport { render, z };",
+    "extension": "tsx",
+    "expected": ["import/order"]
+  },
+  {
+    "scope": "next",
+    "name": "relative navigation",
+    "code": "export function go() { window.location.assign(\"relative\"); }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "prop types",
+    "code": "export function Component(props) { return <div>{props.label}</div>; }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "deprecated react",
+    "code": "import React from \"react\";\nexport const factory = React.createFactory(\"div\");",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "render return",
+    "code": "import React from \"react\";\nexport class Component extends React.Component { render() { void 0; } }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "undefined JS",
+    "code": "export const value = missingName;",
+    "extension": "js",
+    "expected": ["no-undef"]
+  },
+  {
+    "scope": "next",
+    "name": "undefined TS",
+    "code": "export const value = missingName;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "octal",
+    "code": "export const value = 0123;",
+    "extension": "js",
+    "expected": ["parse"]
+  },
+  {
+    "scope": "next",
+    "name": "duplicate arguments",
+    "code": "export function run(value, value) { return value; }",
+    "extension": "js",
+    "expected": ["parse"]
+  },
+  {
+    "scope": "ui",
+    "name": "valid",
+    "code": "export const value = 1;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "debugger",
+    "code": "export function run() { debugger; }",
+    "extension": "tsx",
+    "expected": ["no-debugger"]
+  },
+  {
+    "scope": "ui",
+    "name": "unused",
+    "code": "const unused = 1; export {};",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "ui",
+    "name": "unused underscore argument",
+    "code": "export function run(_unused: string) { return 1; }",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "ui",
+    "name": "unused catch",
+    "code": "try { throw new Error(); } catch (error) { void 0; }",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "ui",
+    "name": "type-only use",
+    "code": "const value = 1; export type Value = typeof value;",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "ui",
+    "name": "rest sibling",
+    "code": "const { unused, ...rest } = { unused: 1, keep: 2 }; export { rest };",
+    "extension": "tsx",
+    "expected": ["no-unused-vars"]
+  },
+  {
+    "scope": "ui",
+    "name": "any",
+    "code": "export const value: any = 1;",
+    "extension": "tsx",
+    "expected": ["typescript/no-explicit-any"]
+  },
+  {
+    "scope": "ui",
+    "name": "empty object type",
+    "code": "export type Value = {};",
+    "extension": "tsx",
+    "expected": ["typescript/no-empty-object-type"]
+  },
+  {
+    "scope": "ui",
+    "name": "double boolean",
+    "code": "export const value = !!true ? 1 : 2;",
+    "extension": "tsx",
+    "expected": ["no-constant-condition", "no-extra-boolean-cast"]
+  },
+  {
+    "scope": "ui",
+    "name": "typescript comment",
+    "code": "// @ts-ignore\nexport const value = 1;",
+    "extension": "tsx",
+    "expected": ["typescript/ban-ts-comment"]
+  },
+  {
+    "scope": "ui",
+    "name": "environment",
+    "code": "export const value = process.env.UNDECLARED_LINT_TEST;",
+    "extension": "tsx",
+    "expected": ["turbo/no-undeclared-env-vars"]
+  },
+  {
+    "scope": "ui",
+    "name": "hooks",
+    "code": "import { useState } from \"react\";\nexport function Component() { if (Math.random()) useState(0); return null; }",
+    "extension": "tsx",
+    "expected": ["react/purity", "react/rules-of-hooks"]
+  },
+  {
+    "scope": "ui",
+    "name": "dependencies",
+    "code": "import { useEffect } from \"react\";\nexport function Component(props: { value: string }) { useEffect(() => { console.log(props.value); }, []); return null; }",
+    "extension": "tsx",
+    "expected": ["react/exhaustive-deps"]
+  },
+  {
+    "scope": "ui",
+    "name": "image",
+    "code": "export const Component = () => <img src=\"/image.png\" />;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "accessibility",
+    "code": "export const Component = () => <div onClick={() => void 0}>click</div>;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "import order",
+    "code": "import { z } from \"zod\";\nimport { useState } from \"react\";\nexport { z, useState };",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "alias import",
+    "code": "import { render } from \"setupTests\";\n\nimport { z } from \"zod\";\nexport { render, z };",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "relative navigation",
+    "code": "export function go() { window.location.assign(\"relative\"); }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "prop types",
+    "code": "export function Component(props) { return <div>{props.label}</div>; }",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "deprecated react",
+    "code": "import React from \"react\";\nexport const factory = React.createFactory(\"div\");",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "render return",
+    "code": "import React from \"react\";\nexport class Component extends React.Component { render() { void 0; } }",
+    "extension": "tsx",
+    "expected": ["react/require-render-return"]
+  },
+  {
+    "scope": "ui",
+    "name": "undefined JS",
+    "code": "export const value = missingName;",
+    "extension": "js",
+    "expected": ["no-undef"]
+  },
+  {
+    "scope": "ui",
+    "name": "undefined TS",
+    "code": "export const value = missingName;",
+    "extension": "tsx",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "octal",
+    "code": "export const value = 0123;",
+    "extension": "js",
+    "expected": ["parse"]
+  },
+  {
+    "scope": "ui",
+    "name": "duplicate arguments",
+    "code": "export function run(value, value) { return value; }",
+    "extension": "js",
+    "expected": ["parse"]
+  },
+  {
+    "scope": "ui",
+    "name": "React API member access",
+    "code": "import React from \"react\"; export const types = React.PropTypes;",
+    "extension": "js",
+    "expected": []
+  },
+  {
+    "scope": "ui",
+    "name": "compiler detects state mutation",
+    "code": "import { useState } from \"react\"; export function Component() { const [state] = useState({ count: 0 }); state.count = 1; return <div>{state.count}</div>; }",
+    "extension": "tsx",
+    "expected": ["react/immutability"]
+  },
+  {
+    "scope": "ui",
+    "name": "compiler detects impure rendering",
+    "code": "export function Component() { const value = Math.random(); return <div>{value}</div>; }",
+    "extension": "tsx",
+    "expected": ["react/purity"]
+  },
+  {
+    "scope": "ui",
+    "name": "compiler accepts state updates in event handlers",
+    "code": "import { useState } from \"react\"; export function Component() { const [count, setCount] = useState(0); return <button onClick={() => setCount(count + 1)}>{count}</button>; }",
+    "extension": "tsx",
+    "expected": []
+  }
+]

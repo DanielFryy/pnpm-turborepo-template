@@ -5,3 +5,7 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - lucide-react@1.43.0
+
+# Oxlint runs the JavaScript plugins without a separate lint engine.
+overrides:
+  eslint: "-"
