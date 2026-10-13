@@ -6,6 +6,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "oxlint . --max-warnings 0",
+    "lint:fix": "oxlint . --fix --max-warnings 0",
     "check-format": "oxfmt --check \"**/*.{js,ts,tsx,json,css,md}\"",
     "format": "oxfmt --write \"**/*.{js,ts,tsx,json,css,md}\"",
     "check-types": "turbo run check-types",

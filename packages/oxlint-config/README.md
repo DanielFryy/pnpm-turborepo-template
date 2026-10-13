@@ -14,7 +14,8 @@ The root `oxlint.config.ts` extends the base configuration for tooling files. Ea
 import config from "@repo/oxlint-config/next";
 import { defineConfig } from "oxlint";
 
-export default defineConfig({ extends: [config], plugins: [] });
+const projectConfig = defineConfig({ extends: [config], plugins: [] });
+export default projectConfig;
 ```
 
 Use Node.js 22.18+ on the 22.x release line, or Node.js 24+. See the [Oxlint configuration documentation](https://oxc.rs/docs/guide/usage/linter/config.html) for TypeScript configuration support.
@@ -25,9 +26,11 @@ Workspace configurations supply their environments, globals, and plugin settings
 
 Rules report warnings, and lint commands use `--max-warnings 0` so violations fail. Rules are enabled explicitly. TypeScript overrides leave checks such as undefined variables to `tsc`.
 
-`pnpm lint` runs Oxlint once from the repository root and discovers nested configurations automatically. Do not add `--config` to this command: it disables nested discovery. The root configuration enables unused-disable warnings. Workspace lint scripts enable the same warnings through a command-line option because nested configs cannot set this option.
+`pnpm lint` runs Oxlint once from the repository root and discovers nested configurations automatically. Do not add `--config` to this command: it disables nested discovery. The root configuration enables unused-disable warnings for the whole run.
 
-Oxlint reads `.gitignore`; workspace configurations also ignore `dist/**`. For filtered Turbo lint runs, Turbo tracks the root and shared configurations, `.gitignore`, and `turbo.json` as lint cache inputs.
+Oxlint reads `.gitignore`; workspace configurations also ignore `dist/**`. Turbo registers linting and formatting as root tasks, with repository files included in the default cache inputs. Workspace lint scripts are unnecessary. These tasks always check the whole repository.
+
+`pnpm exec turbo run quality` runs linting and formatting checks in parallel. `pnpm exec turbo run quality:fix` applies lint fixes before formatting to prevent concurrent writes. Both fix tasks disable caching. The current lint rules do not require type-aware linting or dependency builds.
 
 ## JavaScript plugins
 

@@ -7,15 +7,20 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
-    "lint": {
-      "dependsOn": ["^lint"],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        "$TURBO_ROOT$/oxlint.config.ts",
-        "$TURBO_ROOT$/packages/oxlint-config/**",
-        "$TURBO_ROOT$/turbo.json",
-        "$TURBO_ROOT$/.gitignore"
-      ]
+    "//#quality": {
+      "dependsOn": ["//#lint", "//#check-format"]
+    },
+    "//#quality:fix": {
+      "dependsOn": ["//#lint:fix", "//#format"]
+    },
+    "//#lint": {},
+    "//#lint:fix": {
+      "cache": false
+    },
+    "//#check-format": {},
+    "//#format": {
+      "dependsOn": ["//#lint:fix"],
+      "cache": false
     },
     "check-types": {
       "dependsOn": ["^check-types"]
