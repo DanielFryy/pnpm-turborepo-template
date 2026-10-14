@@ -1,6 +1,4 @@
-// Providers component types and interfaces
-import { ReactNode } from "react";
+// Providers types and interfaces
+import type { ReactNode } from "react";
 
-export interface ProvidersProps {
-  children: ReactNode;
-}
+export type ProvidersProps = Readonly<{ children: ReactNode }>;

@@ -7,15 +7,16 @@
     "dev": "turbo run dev",
     "lint": "oxlint . --max-warnings 0",
     "lint:fix": "oxlint . --fix --max-warnings 0",
-    "check-format": "oxfmt --check \"**/*.{js,ts,tsx,json,css,md}\"",
-    "format": "oxfmt --write \"**/*.{js,ts,tsx,json,css,md}\"",
+    "check-format": "oxfmt --check \"**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,json,css,md}\"",
+    "format": "oxfmt --write \"**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,json,css,md}\"",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",
     "test:lint-config": "pnpm --filter @repo/oxlint-config test",
     "update-dependencies": "ncu -l silent -u -ws && pnpm run clean && pnpm i",
     "clean": "rm -rf node_modules **/**/node_modules **/**/.next **/**/.turbo",
-    "prepare": "husky"
+    "prepare": "husky",
+    "fix": "pnpm exec turbo run quality:fix"
   },
   "devDependencies": {
     "husky": "^9.1.7",

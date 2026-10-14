@@ -3,7 +3,7 @@ import { defineConfig } from "oxlint";
 
 import base from "@repo/oxlint-config/base";
 
-export default defineConfig({
+const config = defineConfig({
   extends: [base],
   plugins: ["typescript", "import", "react", "nextjs", "jsx-a11y"],
   jsPlugins: [{ name: "workspace", specifier: fileURLToPath(new URL("./plugins.ts", import.meta.url)) }],
@@ -136,5 +136,28 @@ export default defineConfig({
       }
     ],
     "workspace/no-location-assign-relative-destination": "warn"
-  }
+  },
+  overrides: [
+    {
+      files: ["**/*.jsx", "**/*.tsx"],
+      rules: {
+        "react/function-component-definition": [
+          "warn",
+          { namedComponents: "arrow-function", unnamedComponents: "arrow-function" }
+        ],
+        "react/no-multi-comp": ["warn", { ignoreStateless: false }],
+        "max-lines": ["warn", { max: 149, skipBlankLines: true, skipComments: true }]
+      }
+    },
+    {
+      files: ["**/*.test.*", "**/*.spec.*", "**/*.stories.*", "**/*.hooks.*", "**/test/**"],
+      rules: { "react/function-component-definition": "off", "react/no-multi-comp": "off", "max-lines": "off" }
+    },
+    {
+      files: ["**/app/**/page.tsx", "**/app/**/page.jsx"],
+      rules: { "max-lines": ["warn", { max: 100, skipBlankLines: true, skipComments: true }] }
+    }
+  ]
 });
+
+export default config;

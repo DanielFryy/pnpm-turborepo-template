@@ -1,11 +1,19 @@
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "oxlint";
 
-export default defineConfig({
-  plugins: ["typescript", "react"],
+const config = defineConfig({
+  plugins: ["typescript", "react", "import"],
   categories: { correctness: "off" },
   jsPlugins: [fileURLToPath(import.meta.resolve("eslint-plugin-turbo"))],
   rules: {
+    curly: ["warn", "multi-line"],
+    "import/no-anonymous-default-export": ["warn", { allowCallExpression: false }],
+    "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
+    "typescript/consistent-type-imports": [
+      "warn",
+      { prefer: "type-imports", fixStyle: "separate-type-imports", disallowTypeAnnotations: false }
+    ],
+
     "constructor-super": "warn",
     "for-direction": "warn",
     "getter-return": "warn",
@@ -109,3 +117,5 @@ export default defineConfig({
     }
   ]
 });
+
+export default config;

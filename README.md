@@ -37,7 +37,7 @@ This Turborepo has some additional tools already setup for you:
 Use Node.js 22.18+ on the 22.x release line, or Node.js 24+, to load the TypeScript lint configurations.
 
 - `pnpm lint` checks the repository using the root configuration and each workspace's nearest configuration. Any warning fails the command.
-- `pnpm lint:fix` applies automatic lint fixes.
+- `pnpm lint:fix` runs Oxlint's safe fixes directly. `pnpm fix` runs lint fixes, then Oxfmt through Turbo; remaining lint violations stop the pipeline.
 - `pnpm check-format` checks formatting; `pnpm format` applies it.
 - `pnpm check-types` runs TypeScript.
 - `pnpm test:lint-config` verifies lint rules and formatting. These checks also run with `pnpm test`.
@@ -45,12 +45,12 @@ Use Node.js 22.18+ on the 22.x release line, or Node.js 24+, to load the TypeScr
 Following the [Turborepo Oxc guide](https://turborepo.dev/docs/guides/tools/oxc), linting and formatting run as repository-wide root tasks:
 
 - `pnpm exec turbo run quality` runs lint and formatting checks in parallel and caches successful results.
-- `pnpm exec turbo run quality:fix` applies lint fixes, then formats files. Fix tasks are not cached.
+- `pnpm exec turbo run quality:fix` runs the same lint and formatting fix pipeline. Fix tasks are not cached.
 - `pnpm exec turbo run lint` and `pnpm exec turbo run check-format` run either check through Turbo.
 
-The direct `pnpm` commands above run the tools without Turbo caching. `pnpm format` only formats files; `pnpm exec turbo run format` also runs lint fixes first. Package filters do not narrow these root tasks to individual workspaces.
+`pnpm lint`, `pnpm lint:fix`, `pnpm format`, and `pnpm check-format` run the tools directly. `pnpm format` only formats files; `pnpm exec turbo run format` also runs lint fixes first. Package filters do not narrow these root tasks to individual workspaces.
 
-Formatting uses a 120-character width, double quotes, semicolons, two-space indentation, and no trailing commas. Oxlint checks import grouping, ordering, and TypeScript alias resolution.
+Formatting uses a 120-character width, double quotes, semicolons, two-space indentation, and no trailing commas. Skill checks use existing native Oxlint rules and cover only conventions those rules support. No custom source-rewriting scripts are used.
 
 See [the lint configuration notes](packages/oxlint-config/README.md) for configuration details and JavaScript plugins.
 

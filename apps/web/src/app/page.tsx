@@ -1,25 +1,13 @@
 import { Button } from "@repo/ui/components/button";
-import Image, { type ImageProps } from "next/image";
+import type { Metadata } from "next";
+import Image from "next/image";
 
 import styles from "./page.module.css";
+import ThemeImage from "@/components/ThemeImage/ThemeImage";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
+export const metadata: Metadata = { title: "Web | Turborepo", description: "Turborepo web starter." };
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
-
-export default function Home() {
+const HomePage = () => {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -76,4 +64,6 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+export default HomePage;

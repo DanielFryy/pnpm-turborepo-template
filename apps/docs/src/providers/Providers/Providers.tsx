@@ -1,6 +1,4 @@
-"use client";
-
-import { ProvidersProps as Props } from "./Providers.types";
+import type { ProvidersProps as Props } from "./Providers.types";
 
 const Providers = (props: Props) => {
   const { children } = props;

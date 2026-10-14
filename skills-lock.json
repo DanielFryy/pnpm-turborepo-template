@@ -5,7 +5,7 @@
       "source": "DanielFryy/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/javascript-typescript-conventions/SKILL.md",
-      "computedHash": "53e3b8fe5150ce58430f0d72115a911384e8780121863a959c8cb9a6b7fc8c5e"
+      "computedHash": "ad88d57882fd2147e9cabe313eb7fbe70027e97e305b57d9d7d13bf64cf8d6a1"
     },
     "next-page-composition": {
       "source": "DanielFryy/agent-skills",
@@ -17,7 +17,7 @@
       "source": "DanielFryy/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/react-component-conventions/SKILL.md",
-      "computedHash": "ebb0049f4c5395820c0c72bb8eb609eaa3f3de46d2302457ff031afaeadc5b45"
+      "computedHash": "7e0a226aafece9cb46456a8292014321a15b3cff81680718e3393554340f90fb"
     },
     "unslop": {
       "source": "cursor/plugins",

@@ -5,63 +5,47 @@ This package exports TypeScript configurations for Oxlint. Oxfmt handles formatt
 ## Configuration
 
 - `base.ts` defines common JavaScript and TypeScript rules.
-- `next.ts` adds Next.js, accessibility, React Hooks, and import ordering rules.
-- `react-internal.ts` adds React component and React Compiler checks for the UI package, with stricter TypeScript restrictions than the apps.
+- `next.ts` adds Next.js, accessibility, React Hooks, component conventions, and import ordering.
+- `react-internal.ts` adds component and React Compiler checks for the UI package, with stricter TypeScript restrictions than the apps.
 
-The root `oxlint.config.ts` extends the base configuration for tooling files. Each app and the UI package has an `oxlint.config.ts` that imports its shared configuration:
+Use Node.js 22.18+ on the 22.x release line, or Node.js 24+, to load these configurations. Every workspace explicitly extends its preset; nearest configurations do not automatically inherit parent configurations. `plugins: []` inherits the preset's plugins without adding Oxlint's defaults. See the [configuration documentation](https://oxc.rs/docs/guide/usage/linter/config.html) and [nested configurations](https://oxc.rs/docs/guide/usage/linter/nested-config.html).
 
-```ts
-import config from "@repo/oxlint-config/next";
-import { defineConfig } from "oxlint";
+Rules report warnings, and lint commands use `--max-warnings 0` so violations fail. Rules are enabled explicitly. TypeScript overrides leave checks such as undefined variables to `tsc`. Workspace configurations supply environments, globals, and plugin settings, resolving paths relative to their own configuration files.
 
-const projectConfig = defineConfig({ extends: [config], plugins: [] });
-export default projectConfig;
-```
+`pnpm lint` discovers nested configurations from the root. Do not add `--config` to this command, because it disables nested discovery. The root configuration enables unused-disable warnings. Oxlint reads `.gitignore`; workspaces also ignore `dist/**`.
 
-Use Node.js 22.18+ on the 22.x release line, or Node.js 24+. See the [Oxlint configuration documentation](https://oxc.rs/docs/guide/usage/linter/config.html) for TypeScript configuration support.
+## Fixing and formatting
 
-Oxlint selects the nearest configuration for each file. Parent and child configurations do not merge automatically, so every workspace explicitly extends its preset. `plugins: []` inherits the preset's plugins without adding Oxlint's defaults. See [nested configurations](https://oxc.rs/docs/guide/usage/linter/nested-config.html).
+- `pnpm lint:fix` runs `oxlint . --fix --max-warnings 0` directly.
+- `pnpm format` runs Oxfmt directly; `pnpm check-format` checks its output.
+- `pnpm fix` and `pnpm exec turbo run quality:fix` run lint fixes, then formatting through Turbo task dependencies. They stop if unfixed lint violations remain. Fix tasks are uncached.
+- `pnpm exec turbo run quality` checks lint and formatting in parallel and caches successful results.
+- For a selected file, use `pnpm exec oxlint path/to/file.tsx --fix --max-warnings 0` and `pnpm exec oxfmt --write path/to/file.tsx`.
 
-Workspace configurations supply their environments, globals, and plugin settings. The apps resolve their Next.js roots and TypeScript configuration paths relative to their own configuration files. Shared configurations resolve JavaScript plugins from this package so consumers do not need to declare those dependencies.
+There is no custom fix runner, file traversal, TypeScript AST parser, or source rewriting plugin. Only Oxlint and Oxfmt perform fixes. Suggestions and dangerous fixes are not enabled. Run `pnpm exec turbo run quality` after fixing to catch any issues exposed by formatting. These root tasks operate on the whole repository; package filters do not narrow them to individual workspaces.
 
-Rules report warnings, and lint commands use `--max-warnings 0` so violations fail. Rules are enabled explicitly. TypeScript overrides leave checks such as undefined variables to `tsc`.
+Oxfmt uses a 120-character width, double quotes, semicolons, two-space indentation, and no trailing commas. Format commands cover JavaScript, TypeScript, JSX, TSX, module variants, JSON, CSS, and Markdown; `.agents` is excluded. Oxfmt does not sort imports or Tailwind classes. Import ordering belongs to lint.
 
-`pnpm lint` runs Oxlint once from the repository root and discovers nested configurations automatically. Do not add `--config` to this command: it disables nested discovery. The root configuration enables unused-disable warnings for the whole run.
+## Existing JavaScript plugins
 
-Oxlint reads `.gitignore`; workspace configurations also ignore `dist/**`. Turbo registers linting and formatting as root tasks, with repository files included in the default cache inputs. Workspace lint scripts are unnecessary. These tasks always check the whole repository.
+These established third-party checks use Oxlint's [JavaScript plugin support](https://oxc.rs/docs/guide/usage/linter/js-plugins):
 
-`pnpm exec turbo run quality` runs linting and formatting checks in parallel. `pnpm exec turbo run quality:fix` applies lint fixes before formatting to prevent concurrent writes. Both fix tasks disable caching. The current lint rules do not require type-aware linting or dependency builds.
+| Plugin                     | Checks                                                                  |
+| -------------------------- | ----------------------------------------------------------------------- |
+| `eslint-plugin-turbo`      | Environment variables declared in Turbo configuration.                  |
+| `eslint-plugin-import`     | Import groups, ordering, asset groups, and TypeScript alias resolution. |
+| `@next/eslint-plugin-next` | Relative destinations passed to `location.assign`.                      |
 
-## JavaScript plugins
+`plugins.ts` exposes selected existing rules under `workspace`. It imports the ordering rule directly to avoid loading another lint engine. The pnpm override excludes that engine from plugin peer dependencies. These adapters do not implement custom convention rules or manually rewrite files.
 
-Oxlint runs these checks through its [JavaScript plugin support](https://oxc.rs/docs/guide/usage/linter/js-plugins):
+## Skill coverage
 
-| Plugin                     | Checks                                                                                     |
-| -------------------------- | ------------------------------------------------------------------------------------------ |
-| `eslint-plugin-turbo`      | Environment variables declared in Turbo configuration.                                     |
-| `eslint-plugin-import`     | Import groups, case-sensitive ordering, blank lines, asset groups, and TypeScript aliases. |
-| `@next/eslint-plugin-next` | Relative destinations passed to `location.assign`.                                         |
+Skill enforcement uses rules shipped in Oxlint 1.82.0 and covers only conventions those rules support. Some skill conventions remain unenforced or only partially covered.
 
-`plugins.ts` exports the selected rules under the `workspace` namespace. It imports the ordering rule directly to avoid loading an additional lint engine. The pnpm override excludes that engine from plugin peer dependencies.
-
-## React checks
-
-React component, Hooks, and Compiler checks use Oxlint's native `react` plugin. The UI configuration enables the supported recommended Compiler rules, including immutability, purity, refs, and state updates.
-
-Oxlint uses fixed compiler options and does not expose gating options, so no JavaScript compiler-configuration rules are needed. See [React Compiler support](https://oxc.rs/blog/2026-08-18-react-compiler-support).
-
-TypeScript checks component prop types. The lint configuration does not enforce runtime `propTypes` declarations or a general React API deprecation check.
-
-The UI rejects unused underscore-prefixed arguments. Both configurations reject values used only in type queries. The apps allow unused arguments, caught errors, underscore-prefixed destructured array items, and rest siblings.
-
-## Formatting
-
-Oxfmt uses a 120-character line width, double quotes, semicolons, two-space indentation, and no trailing commas. Package fields, imports, and Tailwind classes are not sorted by the formatter. Oxlint handles import ordering.
-
-`pnpm format` and `pnpm check-format` cover JavaScript, TypeScript, TSX, JSON, CSS, and Markdown. The `.agents` directory is excluded.
+The [Adding Linter Rules guide](https://oxc.rs/docs/contribute/linter/adding-rules.html) describes Rust contributions inside the Oxc repository. This project consumes the published binary; adding a Rust file here would not register a rule in that binary. No Oxc fork or replacement implementation is included.
 
 ## Verification
 
-`pnpm test:lint-config` checks lint diagnostics, nested configuration discovery, ignored files in all three workspaces, formatting output, and tooling dependencies. It also runs with `pnpm test`.
+`pnpm test:lint-config` checks actual Oxlint diagnostics, nested configuration discovery, ignored generated files, formatting, and tooling dependencies. It also runs with `pnpm test`. Fixture tests create temporary inputs and invoke the official CLI; they do not implement fixes. Temporary fixtures are cleaned up. Turbo caching is disabled for this suite because it exercises configurations in other workspaces.
 
-The TypeScript test suite covers unused-variable options, type-only usage, TypeScript restrictions, Hooks, accessibility, import ordering, React checks, environment access, and parsing. Rule fixtures use the system temporary directory. The nested-discovery check creates temporary TypeScript files inside each workspace to exercise the real configuration hierarchy. All fixtures are removed after their checks. Turbo caching is disabled for this suite because it exercises other workspaces' configurations.
+React component, Hooks, and Compiler checks use Oxlint's native `react` plugin. TypeScript checks prop types. Runtime `propTypes` declarations are not required. The UI rejects unused underscore-prefixed arguments; apps allow unused arguments, caught errors, underscore-prefixed destructured array items, and rest siblings. Both reject values used only in type queries.

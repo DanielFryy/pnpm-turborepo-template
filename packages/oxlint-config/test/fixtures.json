@@ -88,14 +88,14 @@
     "name": "hooks",
     "code": "import { useState } from \"react\";\nexport function Component() { if (Math.random()) useState(0); return null; }",
     "extension": "tsx",
-    "expected": ["react/rules-of-hooks"]
+    "expected": ["react/function-component-definition", "react/rules-of-hooks"]
   },
   {
     "scope": "next",
     "name": "dependencies",
     "code": "import { useEffect } from \"react\";\nexport function Component(props: { value: string }) { useEffect(() => { console.log(props.value); }, []); return null; }",
     "extension": "tsx",
-    "expected": ["react/exhaustive-deps"]
+    "expected": ["react/exhaustive-deps", "react/function-component-definition"]
   },
   {
     "scope": "next",
@@ -137,7 +137,7 @@
     "name": "prop types",
     "code": "export function Component(props) { return <div>{props.label}</div>; }",
     "extension": "tsx",
-    "expected": []
+    "expected": ["react/function-component-definition"]
   },
   {
     "scope": "next",
@@ -270,14 +270,14 @@
     "name": "hooks",
     "code": "import { useState } from \"react\";\nexport function Component() { if (Math.random()) useState(0); return null; }",
     "extension": "tsx",
-    "expected": ["react/purity", "react/rules-of-hooks"]
+    "expected": ["react/function-component-definition", "react/purity", "react/rules-of-hooks"]
   },
   {
     "scope": "ui",
     "name": "dependencies",
     "code": "import { useEffect } from \"react\";\nexport function Component(props: { value: string }) { useEffect(() => { console.log(props.value); }, []); return null; }",
     "extension": "tsx",
-    "expected": ["react/exhaustive-deps"]
+    "expected": ["react/exhaustive-deps", "react/function-component-definition"]
   },
   {
     "scope": "ui",
@@ -319,7 +319,7 @@
     "name": "prop types",
     "code": "export function Component(props) { return <div>{props.label}</div>; }",
     "extension": "tsx",
-    "expected": []
+    "expected": ["react/function-component-definition"]
   },
   {
     "scope": "ui",
@@ -375,20 +375,90 @@
     "name": "compiler detects state mutation",
     "code": "import { useState } from \"react\"; export function Component() { const [state] = useState({ count: 0 }); state.count = 1; return <div>{state.count}</div>; }",
     "extension": "tsx",
-    "expected": ["react/immutability"]
+    "expected": ["react/function-component-definition", "react/immutability"]
   },
   {
     "scope": "ui",
     "name": "compiler detects impure rendering",
     "code": "export function Component() { const value = Math.random(); return <div>{value}</div>; }",
     "extension": "tsx",
-    "expected": ["react/purity"]
+    "expected": ["react/function-component-definition", "react/purity"]
   },
   {
     "scope": "ui",
     "name": "compiler accepts state updates in event handlers",
     "code": "import { useState } from \"react\"; export function Component() { const [count, setCount] = useState(0); return <button onClick={() => setCount(count + 1)}>{count}</button>; }",
     "extension": "tsx",
+    "expected": ["react/function-component-definition"]
+  },
+  {
+    "scope": "next",
+    "name": "native anonymous default export",
+    "code": "export default { value: 1 };",
+    "extension": "ts",
+    "expected": ["import/no-anonymous-default-export"]
+  },
+  {
+    "scope": "next",
+    "name": "native default call export",
+    "code": "const create = () => 1; export default create();",
+    "extension": "ts",
+    "expected": ["import/no-anonymous-default-export"]
+  },
+  {
+    "scope": "next",
+    "name": "native wrapped conditional",
+    "code": "export function run(ready: boolean) { if (ready)\n console.log(ready); }",
+    "extension": "ts",
+    "expected": ["curly"]
+  },
+  {
+    "scope": "next",
+    "name": "native type-only imports",
+    "code": "import { ReactNode } from 'react'; export type Value = ReactNode;",
+    "extension": "ts",
+    "expected": ["typescript/consistent-type-imports"]
+  },
+  {
+    "scope": "next",
+    "name": "native top-level type imports",
+    "code": "import { type ReactNode } from 'react'; export type Value = ReactNode;",
+    "extension": "ts",
+    "expected": ["import/consistent-type-specifier-style"]
+  },
+  {
+    "scope": "ui",
+    "name": "native component arrow syntax",
+    "code": "export function Card() { return <div />; }",
+    "extension": "tsx",
+    "expected": ["react/function-component-definition"]
+  },
+  {
+    "scope": "next",
+    "name": "native one component per file",
+    "code": "export const First = () => <div />; export const Second = () => <div />;",
+    "extension": "tsx",
+    "expected": ["react/no-multi-comp"]
+  },
+  {
+    "scope": "next",
+    "name": "documented gap mutable default binding",
+    "code": "let value = 1; value++; export default value;",
+    "extension": "ts",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "documented gap multiline implicit arrow",
+    "code": "export const run = (value: string) =>\n value;",
+    "extension": "ts",
+    "expected": []
+  },
+  {
+    "scope": "next",
+    "name": "documented gap parameter destructuring",
+    "code": "export const run = ({ value }: { value: string }) => value;",
+    "extension": "ts",
     "expected": []
   }
 ]

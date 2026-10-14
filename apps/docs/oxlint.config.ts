@@ -2,7 +2,7 @@ import config from "@repo/oxlint-config/next";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "oxlint";
 
-export default defineConfig({
+const projectConfig = defineConfig({
   extends: [config],
   plugins: [],
   ignorePatterns: ["dist/**"],
@@ -15,3 +15,5 @@ export default defineConfig({
   },
   globals: { process: "readonly" }
 });
+
+export default projectConfig;

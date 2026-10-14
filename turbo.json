@@ -11,7 +11,7 @@
       "dependsOn": ["//#lint", "//#check-format"]
     },
     "//#quality:fix": {
-      "dependsOn": ["//#lint:fix", "//#format"]
+      "dependsOn": ["//#format"]
     },
     "//#lint": {},
     "//#lint:fix": {

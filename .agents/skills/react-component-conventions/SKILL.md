@@ -53,6 +53,7 @@ The component must use the imported `Props` alias for its parameter. Use `props:
 ```tsx
 const ComponentName = (props: Readonly<Props>) => {
   const { children } = props;
+
   return <div>{children}</div>;
 };
 

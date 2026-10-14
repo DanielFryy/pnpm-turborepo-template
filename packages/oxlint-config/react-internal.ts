@@ -2,7 +2,7 @@ import { defineConfig } from "oxlint";
 
 import base from "@repo/oxlint-config/base";
 
-export default defineConfig({
+const config = defineConfig({
   extends: [base],
   plugins: ["typescript", "react"],
   rules: {
@@ -50,5 +50,24 @@ export default defineConfig({
     "typescript/no-empty-object-type": "warn",
     "typescript/no-explicit-any": "warn",
     "typescript/no-namespace": "warn"
-  }
+  },
+  overrides: [
+    {
+      files: ["**/*.jsx", "**/*.tsx"],
+      rules: {
+        "react/function-component-definition": [
+          "warn",
+          { namedComponents: "arrow-function", unnamedComponents: "arrow-function" }
+        ],
+        "react/no-multi-comp": ["warn", { ignoreStateless: false }],
+        "max-lines": ["warn", { max: 149, skipBlankLines: true, skipComments: true }]
+      }
+    },
+    {
+      files: ["**/*.test.*", "**/*.spec.*", "**/*.stories.*", "**/*.hooks.*", "**/test/**"],
+      rules: { "react/function-component-definition": "off", "react/no-multi-comp": "off", "max-lines": "off" }
+    }
+  ]
 });
+
+export default config;
