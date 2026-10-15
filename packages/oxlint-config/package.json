@@ -9,11 +9,11 @@
     "./react-internal": "./react-internal.ts"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "16.3.4",
+    "@next/eslint-plugin-next": "16.4.2",
     "@shadcn/lint": "^0.2.1",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-turbo": "^2.10.12"
+    "eslint-plugin-turbo": "^2.11.8"
   },
   "scripts": {
     "test": "node --test test/*.test.ts",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^26.5.0",
-    "typescript": "^6.0.3"
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
   }
 }
