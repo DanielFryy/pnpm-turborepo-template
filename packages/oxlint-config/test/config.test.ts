@@ -22,6 +22,60 @@ const normalizeRule = (rule: string) => {
     .replace(/^typescript\/(no-unused-vars|no-unused-expressions|no-array-constructor)$/, "$1");
 };
 
+test("shadcn rules enforce consumers and preserve component authoring exceptions", () => {
+  const locations = [
+    "apps/web/src/components",
+    "apps/docs/src/components",
+    "packages/ui/src",
+    "packages/ui/src/components"
+  ];
+  const directories: string[] = [];
+  const consumerRules = [
+    "shadcn/no-arbitrary-values",
+    "shadcn/no-inline-styles",
+    "shadcn/no-raw-colors",
+    "shadcn/no-restyle",
+    "shadcn/require-static-classes"
+  ];
+  const componentRules = ["shadcn/no-inline-styles", "shadcn/no-raw-colors"];
+  const invalidCode = `import { Button } from "@repo/ui/components/button";
+const dynamicClass = String(Date.now());
+const Example = () => {
+  return <><Button className="p-4 ring-[3px]" /><Button className={dynamicClass} /><div className="bg-red-500" style={{ opacity: 0.5 }} /></>;
+};
+export default Example;
+`;
+  const validCode = `import { Button } from "@repo/ui/components/button";
+const Example = () => {
+  return <Button variant="outline" className="mt-4 w-[137px]" />;
+};
+export default Example;
+`;
+  try {
+    for (const location of locations) {
+      const directory = mkdtempSync(path.join(repository, location, "shadcn-fixture-"));
+      const filename = path.join(directory, "Example.tsx");
+      const expected = location === "packages/ui/src/components" ? componentRules : consumerRules;
+      directories.push(directory);
+      for (const code of [invalidCode, validCode]) {
+        writeFileSync(filename, code);
+        const args = [cli, filename, "--format", "json", "--max-warnings", "0"];
+        const result = spawnSync(process.execPath, args, { cwd: repository, encoding: "utf8" });
+        const { error, status, stdout, stderr } = result;
+        assert.ifError(error);
+        assert.equal(stderr, "");
+        const { diagnostics }: { diagnostics: { code: string; severity: string }[] } = JSON.parse(stdout);
+        const actual = [...new Set(diagnostics.map(diagnostic => normalizeRule(diagnostic.code)))].sort();
+        assert.deepEqual(actual, code === invalidCode ? expected : [], location);
+        assert.ok(diagnostics.every(diagnostic => diagnostic.severity === "error"));
+        assert.equal(status, code === invalidCode ? 1 : 0, stdout);
+      }
+    }
+  } finally {
+    for (const directory of directories) rmSync(directory, { recursive: true, force: true });
+  }
+});
+
 for (const fixture of fixtures) {
   const { scope, name, code, extension, expected } = fixture;
   test(`${scope}: ${name}`, () => {

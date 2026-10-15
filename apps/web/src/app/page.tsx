@@ -46,7 +46,9 @@ const HomePage = () => {
             Read our docs
           </a>
         </div>
-        <Button className={styles.secondary}>Open alert</Button>
+        <Button variant="outline" size="lg">
+          Open alert
+        </Button>
       </main>
       <footer className={styles.footer}>
         <a

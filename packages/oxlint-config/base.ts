@@ -4,8 +4,16 @@ import { defineConfig } from "oxlint";
 const config = defineConfig({
   plugins: ["typescript", "react", "import"],
   categories: { correctness: "off" },
-  jsPlugins: [fileURLToPath(import.meta.resolve("eslint-plugin-turbo"))],
+  jsPlugins: [
+    fileURLToPath(import.meta.resolve("eslint-plugin-turbo")),
+    fileURLToPath(import.meta.resolve("@shadcn/lint"))
+  ],
   rules: {
+    "shadcn/no-restyle": ["error", { allow: ["layout"] }],
+    "shadcn/no-raw-colors": "error",
+    "shadcn/no-arbitrary-values": ["error", { allow: ["layout"] }],
+    "shadcn/no-inline-styles": "error",
+    "shadcn/require-static-classes": "error",
     curly: ["warn", "multi-line"],
     "import/no-anonymous-default-export": ["warn", { allowCallExpression: false }],
     "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],

@@ -10,7 +10,7 @@ This package exports TypeScript configurations for Oxlint. Oxfmt handles formatt
 
 Use Node.js 22.18+ on the 22.x release line, or Node.js 24+, to load these configurations. Every workspace explicitly extends its preset; nearest configurations do not automatically inherit parent configurations. `plugins: []` inherits the preset's plugins without adding Oxlint's defaults. See the [configuration documentation](https://oxc.rs/docs/guide/usage/linter/config.html) and [nested configurations](https://oxc.rs/docs/guide/usage/linter/nested-config.html).
 
-Rules report warnings, and lint commands use `--max-warnings 0` so violations fail. Rules are enabled explicitly. TypeScript overrides leave checks such as undefined variables to `tsc`. Workspace configurations supply environments, globals, and plugin settings, resolving paths relative to their own configuration files.
+Existing rules report warnings, while the five core shadcn rules report errors. Lint commands use `--max-warnings 0` so both fail checks. Rules are enabled explicitly. TypeScript overrides leave checks such as undefined variables to `tsc`. Workspace configurations supply environments, globals, and plugin settings, resolving paths relative to their own configuration files.
 
 `pnpm lint` discovers nested configurations from the root. Do not add `--config` to this command, because it disables nested discovery. The root configuration enables unused-disable warnings. Oxlint reads `.gitignore`; workspaces also ignore `dist/**`.
 
@@ -37,6 +37,18 @@ These established third-party checks use Oxlint's [JavaScript plugin support](ht
 | `@next/eslint-plugin-next` | Relative destinations passed to `location.assign`.                      |
 
 `plugins.ts` exposes selected existing rules under `workspace`. It imports the ordering rule directly to avoid loading another lint engine. The pnpm override excludes that engine from plugin peer dependencies. These adapters do not implement custom convention rules or manually rewrite files.
+
+## shadcn lint
+
+`@shadcn/lint` is installed in this package and registered through `jsPlugins` in `base.ts`. Both apps and the UI package inherit the registration. The five core rules from the [adoption guide](https://github.com/shadcn-ui/lint/blob/main/docs/adoption.md#add-more-rules) report errors: `no-restyle`, `no-raw-colors`, `no-arbitrary-values`, `no-inline-styles`, and `require-static-classes`. The `no-restyle` and `no-arbitrary-values` rules allow layout classes.
+
+The existing `components.json` files in `apps/web`, `apps/docs`, and `packages/ui` identify `@repo/ui/components` and the shared Tailwind v4 theme at `packages/ui/src/styles/globals.css`. Their TypeScript aliases and package exports resolve shared components, so no extra discovery settings are needed.
+
+The override in `packages/ui/oxlint.config.ts` matches `src/components/**`, relative to the UI package. It disables `no-restyle`, `no-arbitrary-values`, and `require-static-classes` where shared components define their appearance. `no-raw-colors` and `no-inline-styles` remain enabled there. App components and other UI-package files keep all five rules. `no-unknown-classes` remains a separate opt-in check.
+
+Adjust rules in `base.ts` for the repository, `next.ts` for both apps, `react-internal.ts` for the UI package, or an individual workspace's `oxlint.config.ts` for local policies. See the [available rules](https://github.com/shadcn-ui/lint/blob/main/docs/rules.md), [configuration examples](https://github.com/shadcn-ui/lint/blob/main/README.md#settings), and [discovery documentation](https://github.com/shadcn-ui/lint/blob/main/docs/how-it-works.md).
+
+Run `pnpm lint` or `pnpm exec turbo run quality` from the repository root. To check one workspace, run `pnpm exec oxlint apps/web --max-warnings 0`, replacing `apps/web` with `apps/docs` or `packages/ui` as needed.
 
 ## Skill coverage
 
